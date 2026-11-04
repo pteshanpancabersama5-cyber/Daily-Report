@@ -1,0 +1,6 @@
+{
+  "name": "DailyReport Pro - Laporan Harian & Dokumentasi Proyek",
+  "description": "Sistem aplikasi daily report komprehensif dengan ekspor PDF, dokumentasi foto lapangan, sinkronisasi Google Sheets, serta pengiriman via WhatsApp dan Email.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
