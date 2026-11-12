@@ -26,6 +26,10 @@ export interface WorkItem {
 export interface MaterialItem {
   id: string;
   name: string;
+  serialNumber?: string; // SN
+  power?: string; // Daya
+  year?: string; // Tahun
+  brand?: string; // Merk
   receivedQty: number;
   usedQty: number;
   unit: string;
@@ -35,6 +39,10 @@ export interface MaterialItem {
 export interface EquipmentItem {
   id: string;
   name: string;
+  serialNumber?: string; // SN
+  power?: string; // Daya
+  year?: string; // Tahun
+  brand?: string; // Merk
   totalUnits: number;
   operatingHours: number;
   standbyHours: number;

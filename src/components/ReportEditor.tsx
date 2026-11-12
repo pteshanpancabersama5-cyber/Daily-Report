@@ -408,7 +408,7 @@ export const ReportEditor: React.FC<ReportEditorProps> = ({
                   </div>
 
                   <div>
-                    <label className="block text-xs font-semibold text-slate-700 mb-1">No. WO (Work Order):</label>
+                    <label className="block text-xs font-semibold text-slate-700 mb-1">NO WO:</label>
                     <input
                       type="text"
                       value={projectCode}
@@ -804,7 +804,10 @@ export const ReportEditor: React.FC<ReportEditorProps> = ({
               <div className="space-y-6">
                 <div>
                   <div className="flex items-center justify-between mb-2">
-                    <h4 className="text-xs font-bold text-slate-700 uppercase tracking-wider">Log Material</h4>
+                    <div>
+                      <h4 className="text-xs font-bold text-slate-700 uppercase tracking-wider">Log Material & Perangkat</h4>
+                      <p className="text-[11px] text-slate-500">Pencatatan material beserta spesifikasi Merk, Daya, Tahun, dan Serial Number (SN)</p>
+                    </div>
                     <button
                       type="button"
                       onClick={() =>
@@ -813,75 +816,163 @@ export const ReportEditor: React.FC<ReportEditorProps> = ({
                           {
                             id: `mat-${Date.now()}`,
                             name: '',
-                            receivedQty: 0,
-                            usedQty: 0,
-                            unit: 'Zak',
+                            brand: '',
+                            power: '',
+                            year: new Date().getFullYear().toString(),
+                            serialNumber: '',
+                            receivedQty: 1,
+                            usedQty: 1,
+                            unit: 'Unit',
                             notes: '',
                           },
                         ])
                       }
-                      className="px-3 py-1 text-xs font-semibold text-sky-700 bg-sky-50 hover:bg-sky-100 border border-sky-200 rounded-lg transition-colors flex items-center gap-1"
+                      className="px-3 py-1.5 text-xs font-semibold text-sky-700 bg-sky-50 hover:bg-sky-100 border border-sky-200 rounded-lg transition-colors flex items-center gap-1 shrink-0"
                     >
                       <Plus size={13} /> Tambah Material
                     </button>
                   </div>
 
-                  <div className="space-y-2">
-                    {materials.map((mat) => (
-                      <div key={mat.id} className="p-3 bg-slate-50 border border-slate-200 rounded-xl flex items-center gap-3 text-xs">
-                        <input
-                          type="text"
-                          placeholder="Nama Material (e.g. Semen Gresik 50kg)..."
-                          value={mat.name}
-                          onChange={(e) => {
-                            const val = e.target.value;
-                            setMaterials((prev) => prev.map((m) => (m.id === mat.id ? { ...m, name: val } : m)));
-                          }}
-                          className="flex-1 px-2.5 py-1 bg-white border border-slate-200 rounded-lg font-medium"
-                        />
-                        <div className="w-24">
-                          <input
-                            type="number"
-                            placeholder="Diterima"
-                            value={mat.receivedQty}
-                            onChange={(e) => {
-                              const val = parseFloat(e.target.value) || 0;
-                              setMaterials((prev) => prev.map((m) => (m.id === mat.id ? { ...m, receivedQty: val } : m)));
-                            }}
-                            className="w-full px-2 py-1 bg-white border border-slate-200 rounded-lg text-center"
-                          />
-                        </div>
-                        <div className="w-24">
-                          <input
-                            type="number"
-                            placeholder="Dipakai"
-                            value={mat.usedQty}
-                            onChange={(e) => {
-                              const val = parseFloat(e.target.value) || 0;
-                              setMaterials((prev) => prev.map((m) => (m.id === mat.id ? { ...m, usedQty: val } : m)));
-                            }}
-                            className="w-full px-2 py-1 bg-white border border-slate-200 rounded-lg text-center font-bold"
-                          />
-                        </div>
-                        <div className="w-20">
+                  <div className="space-y-3">
+                    {materials.map((mat, idx) => (
+                      <div key={mat.id} className="p-3.5 bg-slate-50 border border-slate-200 rounded-xl space-y-2.5">
+                        <div className="flex items-center justify-between gap-2">
+                          <span className="text-[11px] font-bold text-slate-500 w-5">#{idx + 1}</span>
                           <input
                             type="text"
-                            placeholder="Satuan"
-                            value={mat.unit}
+                            placeholder="Nama Material / Perangkat (e.g. Trafo Distribusi / Pompa Hydrant)..."
+                            value={mat.name}
                             onChange={(e) => {
                               const val = e.target.value;
-                              setMaterials((prev) => prev.map((m) => (m.id === mat.id ? { ...m, unit: val } : m)));
+                              setMaterials((prev) => prev.map((m) => (m.id === mat.id ? { ...m, name: val } : m)));
                             }}
-                            className="w-full px-2 py-1 bg-white border border-slate-200 rounded-lg text-center font-mono"
+                            className="flex-1 px-2.5 py-1.5 bg-white border border-slate-200 rounded-lg text-xs font-semibold focus:outline-none focus:ring-1 focus:ring-sky-500"
                           />
+                          <button
+                            type="button"
+                            onClick={() => setMaterials((prev) => prev.filter((m) => m.id !== mat.id))}
+                            className="p-1.5 text-rose-500 hover:bg-rose-100 rounded-lg transition-colors"
+                            title="Hapus baris ini"
+                          >
+                            <Trash2 size={15} />
+                          </button>
                         </div>
-                        <button
-                          type="button"
-                          onClick={() => setMaterials((prev) => prev.filter((m) => m.id !== mat.id))}
-                          className="p-1 text-rose-500 hover:bg-rose-100 rounded-lg transition-colors"
-                        >
-                          <Trash2 size={15} />
-                        </button>
+
+                        {/* Four requested columns: Merk, Daya, Tahun, SN */}
+                        <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs">
+                          <div>
+                            <label className="block text-[10px] font-semibold text-slate-600 mb-0.5">Merk:</label>
+                            <input
+                              type="text"
+                              placeholder="e.g. Schneider / Daikin"
+                              value={mat.brand || ''}
+                              onChange={(e) => {
+                                const val = e.target.value;
+                                setMaterials((prev) => prev.map((m) => (m.id === mat.id ? { ...m, brand: val } : m)));
+                              }}
+                              className="w-full px-2 py-1 bg-white border border-slate-200 rounded-lg text-xs"
+                            />
+                          </div>
+
+                          <div>
+                            <label className="block text-[10px] font-semibold text-slate-600 mb-0.5">Daya:</label>
+                            <input
+                              type="text"
+                              placeholder="e.g. 250 kVA / 15 kW"
+                              value={mat.power || ''}
+                              onChange={(e) => {
+                                const val = e.target.value;
+                                setMaterials((prev) => prev.map((m) => (m.id === mat.id ? { ...m, power: val } : m)));
+                              }}
+                              className="w-full px-2 py-1 bg-white border border-slate-200 rounded-lg text-xs font-mono"
+                            />
+                          </div>
+
+                          <div>
+                            <label className="block text-[10px] font-semibold text-slate-600 mb-0.5">Tahun:</label>
+                            <input
+                              type="text"
+                              placeholder="e.g. 2026"
+                              value={mat.year || ''}
+                              onChange={(e) => {
+                                const val = e.target.value;
+                                setMaterials((prev) => prev.map((m) => (m.id === mat.id ? { ...m, year: val } : m)));
+                              }}
+                              className="w-full px-2 py-1 bg-white border border-slate-200 rounded-lg text-xs text-center font-mono"
+                            />
+                          </div>
+
+                          <div>
+                            <label className="block text-[10px] font-semibold text-slate-600 mb-0.5">SN (Serial Number):</label>
+                            <input
+                              type="text"
+                              placeholder="e.g. SN-8819203"
+                              value={mat.serialNumber || ''}
+                              onChange={(e) => {
+                                const val = e.target.value;
+                                setMaterials((prev) => prev.map((m) => (m.id === mat.id ? { ...m, serialNumber: val } : m)));
+                              }}
+                              className="w-full px-2 py-1 bg-white border border-slate-200 rounded-lg text-xs font-mono font-medium text-sky-800"
+                            />
+                          </div>
+                        </div>
+
+                        {/* Quantity & Notes row */}
+                        <div className="grid grid-cols-3 sm:grid-cols-4 gap-2 text-xs">
+                          <div>
+                            <label className="block text-[10px] text-slate-500 mb-0.5">Diterima:</label>
+                            <input
+                              type="number"
+                              value={mat.receivedQty}
+                              onChange={(e) => {
+                                const val = parseFloat(e.target.value) || 0;
+                                setMaterials((prev) => prev.map((m) => (m.id === mat.id ? { ...m, receivedQty: val } : m)));
+                              }}
+                              className="w-full px-2 py-1 bg-white border border-slate-200 rounded-lg text-center"
+                            />
+                          </div>
+
+                          <div>
+                            <label className="block text-[10px] text-slate-500 mb-0.5">Dipakai:</label>
+                            <input
+                              type="number"
+                              value={mat.usedQty}
+                              onChange={(e) => {
+                                const val = parseFloat(e.target.value) || 0;
+                                setMaterials((prev) => prev.map((m) => (m.id === mat.id ? { ...m, usedQty: val } : m)));
+                              }}
+                              className="w-full px-2 py-1 bg-white border border-slate-200 rounded-lg text-center font-bold text-slate-800"
+                            />
+                          </div>
+
+                          <div>
+                            <label className="block text-[10px] text-slate-500 mb-0.5">Satuan:</label>
+                            <input
+                              type="text"
+                              placeholder="Unit, Zak, Batang"
+                              value={mat.unit}
+                              onChange={(e) => {
+                                const val = e.target.value;
+                                setMaterials((prev) => prev.map((m) => (m.id === mat.id ? { ...m, unit: val } : m)));
+                              }}
+                              className="w-full px-2 py-1 bg-white border border-slate-200 rounded-lg text-center font-mono"
+                            />
+                          </div>
+
+                          <div className="col-span-3 sm:col-span-1">
+                            <label className="block text-[10px] text-slate-500 mb-0.5">Catatan / Surat Jalan:</label>
+                            <input
+                              type="text"
+                              placeholder="Keterangan..."
+                              value={mat.notes || ''}
+                              onChange={(e) => {
+                                const val = e.target.value;
+                                setMaterials((prev) => prev.map((m) => (m.id === mat.id ? { ...m, notes: val } : m)));
+                              }}
+                              className="w-full px-2 py-1 bg-white border border-slate-200 rounded-lg"
+                            />
+                          </div>
+                        </div>
                       </div>
                     ))}
                   </div>
@@ -889,7 +980,10 @@ export const ReportEditor: React.FC<ReportEditorProps> = ({
 
                 <div>
                   <div className="flex items-center justify-between mb-2">
-                    <h4 className="text-xs font-bold text-slate-700 uppercase tracking-wider">Log Alat Berat & Mesin</h4>
+                    <div>
+                      <h4 className="text-xs font-bold text-slate-700 uppercase tracking-wider">Log Alat Berat & Mesin</h4>
+                      <p className="text-[11px] text-slate-500">Pencatatan alat berat, genset, dan mesin operasional proyek</p>
+                    </div>
                     <button
                       type="button"
                       onClick={() =>
@@ -898,6 +992,10 @@ export const ReportEditor: React.FC<ReportEditorProps> = ({
                           {
                             id: `eq-${Date.now()}`,
                             name: '',
+                            brand: '',
+                            power: '',
+                            year: new Date().getFullYear().toString(),
+                            serialNumber: '',
                             totalUnits: 1,
                             operatingHours: 8,
                             standbyHours: 0,
@@ -906,58 +1004,137 @@ export const ReportEditor: React.FC<ReportEditorProps> = ({
                           },
                         ])
                       }
-                      className="px-3 py-1 text-xs font-semibold text-sky-700 bg-sky-50 hover:bg-sky-100 border border-sky-200 rounded-lg transition-colors flex items-center gap-1"
+                      className="px-3 py-1.5 text-xs font-semibold text-sky-700 bg-sky-50 hover:bg-sky-100 border border-sky-200 rounded-lg transition-colors flex items-center gap-1 shrink-0"
                     >
                       <Plus size={13} /> Tambah Alat
                     </button>
                   </div>
 
-                  <div className="space-y-2">
-                    {equipment.map((eq) => (
-                      <div key={eq.id} className="p-3 bg-slate-50 border border-slate-200 rounded-xl flex items-center gap-3 text-xs">
-                        <input
-                          type="text"
-                          placeholder="Nama Alat (e.g. Excavator Komatsu PC200)..."
-                          value={eq.name}
-                          onChange={(e) => {
-                            const val = e.target.value;
-                            setEquipment((prev) => prev.map((item) => (item.id === eq.id ? { ...item, name: val } : item)));
-                          }}
-                          className="flex-1 px-2.5 py-1 bg-white border border-slate-200 rounded-lg font-medium"
-                        />
-                        <div className="w-24">
+                  <div className="space-y-3">
+                    {equipment.map((eq, idx) => (
+                      <div key={eq.id} className="p-3.5 bg-slate-50 border border-slate-200 rounded-xl space-y-2.5">
+                        <div className="flex items-center justify-between gap-2">
+                          <span className="text-[11px] font-bold text-slate-500 w-5">#{idx + 1}</span>
                           <input
-                            type="number"
-                            placeholder="Jam Kerja"
-                            value={eq.operatingHours}
+                            type="text"
+                            placeholder="Nama Alat (e.g. Genset Silent 150 kVA / Excavator)..."
+                            value={eq.name}
                             onChange={(e) => {
-                              const val = parseFloat(e.target.value) || 0;
-                              setEquipment((prev) => prev.map((item) => (item.id === eq.id ? { ...item, operatingHours: val } : item)));
+                              const val = e.target.value;
+                              setEquipment((prev) => prev.map((item) => (item.id === eq.id ? { ...item, name: val } : item)));
                             }}
-                            className="w-full px-2 py-1 bg-white border border-slate-200 rounded-lg text-center"
+                            className="flex-1 px-2.5 py-1.5 bg-white border border-slate-200 rounded-lg text-xs font-semibold"
                           />
-                        </div>
-                        <div className="w-24">
-                          <select
-                            value={eq.status}
-                            onChange={(e) => {
-                              const val = e.target.value as any;
-                              setEquipment((prev) => prev.map((item) => (item.id === eq.id ? { ...item, status: val } : item)));
-                            }}
-                            className="w-full px-2 py-1 bg-white border border-slate-200 rounded-lg"
+                          <button
+                            type="button"
+                            onClick={() => setEquipment((prev) => prev.filter((item) => item.id !== eq.id))}
+                            className="p-1.5 text-rose-500 hover:bg-rose-100 rounded-lg transition-colors"
                           >
-                            <option value="Baik">Baik</option>
-                            <option value="Standby">Standby</option>
-                            <option value="Perbaikan">Perbaikan</option>
-                          </select>
+                            <Trash2 size={15} />
+                          </button>
                         </div>
-                        <button
-                          type="button"
-                          onClick={() => setEquipment((prev) => prev.filter((item) => item.id !== eq.id))}
-                          className="p-1 text-rose-500 hover:bg-rose-100 rounded-lg transition-colors"
-                        >
-                          <Trash2 size={15} />
-                        </button>
+
+                        <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs">
+                          <div>
+                            <label className="block text-[10px] font-semibold text-slate-600 mb-0.5">Merk:</label>
+                            <input
+                              type="text"
+                              placeholder="e.g. Denyo / Komatsu"
+                              value={eq.brand || ''}
+                              onChange={(e) => {
+                                const val = e.target.value;
+                                setEquipment((prev) => prev.map((item) => (item.id === eq.id ? { ...item, brand: val } : item)));
+                              }}
+                              className="w-full px-2 py-1 bg-white border border-slate-200 rounded-lg text-xs"
+                            />
+                          </div>
+
+                          <div>
+                            <label className="block text-[10px] font-semibold text-slate-600 mb-0.5">Daya:</label>
+                            <input
+                              type="text"
+                              placeholder="e.g. 150 kVA / 200 HP"
+                              value={eq.power || ''}
+                              onChange={(e) => {
+                                const val = e.target.value;
+                                setEquipment((prev) => prev.map((item) => (item.id === eq.id ? { ...item, power: val } : item)));
+                              }}
+                              className="w-full px-2 py-1 bg-white border border-slate-200 rounded-lg text-xs font-mono"
+                            />
+                          </div>
+
+                          <div>
+                            <label className="block text-[10px] font-semibold text-slate-600 mb-0.5">Tahun:</label>
+                            <input
+                              type="text"
+                              placeholder="e.g. 2024"
+                              value={eq.year || ''}
+                              onChange={(e) => {
+                                const val = e.target.value;
+                                setEquipment((prev) => prev.map((item) => (item.id === eq.id ? { ...item, year: val } : item)));
+                              }}
+                              className="w-full px-2 py-1 bg-white border border-slate-200 rounded-lg text-xs text-center font-mono"
+                            />
+                          </div>
+
+                          <div>
+                            <label className="block text-[10px] font-semibold text-slate-600 mb-0.5">SN (Serial Number):</label>
+                            <input
+                              type="text"
+                              placeholder="e.g. DNY-GEN-150"
+                              value={eq.serialNumber || ''}
+                              onChange={(e) => {
+                                const val = e.target.value;
+                                setEquipment((prev) => prev.map((item) => (item.id === eq.id ? { ...item, serialNumber: val } : item)));
+                              }}
+                              className="w-full px-2 py-1 bg-white border border-slate-200 rounded-lg text-xs font-mono font-medium text-sky-800"
+                            />
+                          </div>
+                        </div>
+
+                        <div className="grid grid-cols-3 gap-2 text-xs">
+                          <div>
+                            <label className="block text-[10px] text-slate-500 mb-0.5">Jumlah Unit:</label>
+                            <input
+                              type="number"
+                              value={eq.totalUnits}
+                              onChange={(e) => {
+                                const val = parseInt(e.target.value, 10) || 1;
+                                setEquipment((prev) => prev.map((item) => (item.id === eq.id ? { ...item, totalUnits: val } : item)));
+                              }}
+                              className="w-full px-2 py-1 bg-white border border-slate-200 rounded-lg text-center"
+                            />
+                          </div>
+
+                          <div>
+                            <label className="block text-[10px] text-slate-500 mb-0.5">Jam Operasi (Jam):</label>
+                            <input
+                              type="number"
+                              value={eq.operatingHours}
+                              onChange={(e) => {
+                                const val = parseFloat(e.target.value) || 0;
+                                setEquipment((prev) => prev.map((item) => (item.id === eq.id ? { ...item, operatingHours: val } : item)));
+                              }}
+                              className="w-full px-2 py-1 bg-white border border-slate-200 rounded-lg text-center font-bold text-slate-800"
+                            />
+                          </div>
+
+                          <div>
+                            <label className="block text-[10px] text-slate-500 mb-0.5">Status Alat:</label>
+                            <select
+                              value={eq.status}
+                              onChange={(e) => {
+                                const val = e.target.value as any;
+                                setEquipment((prev) => prev.map((item) => (item.id === eq.id ? { ...item, status: val } : item)));
+                              }}
+                              className="w-full px-2 py-1 bg-white border border-slate-200 rounded-lg font-semibold"
+                            >
+                              <option value="Baik">Baik</option>
+                              <option value="Standby">Standby</option>
+                              <option value="Perbaikan">Perbaikan</option>
+                            </select>
+                          </div>
+                        </div>
                       </div>
                     ))}
                   </div>

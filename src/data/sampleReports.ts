@@ -148,17 +148,17 @@ export const sampleReports: DailyReport[] = [
     ],
 
     materials: [
-      { id: 'mat-1', name: 'Beton Ready Mix K-350 (Holcim/Indocement)', receivedQty: 85, usedQty: 85, unit: 'm³', notes: 'Surat jalan No. RM-8821 lengkap' },
-      { id: 'mat-2', name: 'Besi Beton Ulir D19 (Krakatau Steel)', receivedQty: 150, usedQty: 95, unit: 'Batang', notes: 'Sertifikat mill terlampir' },
-      { id: 'mat-3', name: 'Kawat Bendrat Tali Besi', receivedQty: 10, usedQty: 6, unit: 'Roll', notes: 'Untuk ikatan tulangan kolom' },
-      { id: 'mat-4', name: 'Multiplek Phenolic Film 18mm', receivedQty: 40, usedQty: 25, unit: 'Lembar', notes: 'Untuk bekisting balok B1' },
+      { id: 'mat-1', name: 'Trafo Distribusi 3 Phasa 20kV', brand: 'Trafindo', power: '250 kVA', year: '2026', serialNumber: 'TRF-26-88192', receivedQty: 1, usedQty: 1, unit: 'Unit', notes: 'Surat jalan No. SJ-8821' },
+      { id: 'mat-2', name: 'Panel Utama Distribusi (LVMDP)', brand: 'Schneider Electric', power: '630A / 380V', year: '2026', serialNumber: 'SCH-LV-2026-09', receivedQty: 1, usedQty: 1, unit: 'Unit', notes: 'Factory test lengkap' },
+      { id: 'mat-3', name: 'Genset Silent Standby', brand: 'Yanmar / Denyo', power: '150 kVA', year: '2025', serialNumber: 'DNY-150-771', receivedQty: 1, usedQty: 1, unit: 'Unit', notes: 'Running test normal' },
+      { id: 'mat-4', name: 'Pompa Booster Hydrant & Transfer', brand: 'Grundfos', power: '15 kW', year: '2026', serialNumber: 'GRD-CR32-55', receivedQty: 2, usedQty: 2, unit: 'Set', notes: 'Komisioning instalasi selesai' },
     ],
 
     equipment: [
-      { id: 'eq-1', name: 'Concrete Pump Truck (IHI 36M)', totalUnits: 1, operatingHours: 6.5, standbyHours: 1.5, breakdownHours: 0, status: 'Baik' },
-      { id: 'eq-2', name: 'Tower Crane Zoomlion TC6013', totalUnits: 1, operatingHours: 7, standbyHours: 1, breakdownHours: 0, status: 'Baik' },
-      { id: 'eq-3', name: 'Concrete Vibrator Elektrik', totalUnits: 4, operatingHours: 6, standbyHours: 2, breakdownHours: 0, status: 'Baik' },
-      { id: 'eq-4', name: 'Genset Silent 150 kVA (Denyo)', totalUnits: 1, operatingHours: 8, standbyHours: 0, breakdownHours: 0, status: 'Baik' },
+      { id: 'eq-1', name: 'Concrete Pump Truck (IHI 36M)', brand: 'IHI', power: '260 HP', year: '2023', serialNumber: 'IHI-CP-3601', totalUnits: 1, operatingHours: 6.5, standbyHours: 1.5, breakdownHours: 0, status: 'Baik' },
+      { id: 'eq-2', name: 'Tower Crane Zoomlion TC6013', brand: 'Zoomlion', power: '45 kW', year: '2022', serialNumber: 'ZL-TC6013-18', totalUnits: 1, operatingHours: 7, standbyHours: 1, breakdownHours: 0, status: 'Baik' },
+      { id: 'eq-3', name: 'Concrete Vibrator Elektrik', brand: 'Mikasa', power: '1.5 kW', year: '2024', serialNumber: 'MK-VIB-04', totalUnits: 4, operatingHours: 6, standbyHours: 2, breakdownHours: 0, status: 'Baik' },
+      { id: 'eq-4', name: 'Genset Silent 150 kVA (Denyo)', brand: 'Denyo', power: '150 kVA', year: '2024', serialNumber: 'DNY-GEN-150', totalUnits: 1, operatingHours: 8, standbyHours: 0, breakdownHours: 0, status: 'Baik' },
     ],
 
     issues: [

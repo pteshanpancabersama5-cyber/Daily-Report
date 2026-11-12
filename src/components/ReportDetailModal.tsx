@@ -341,8 +341,12 @@ export const ReportDetailModal: React.FC<ReportDetailModalProps> = ({
                   <h4 className="text-xs font-bold text-slate-700 uppercase tracking-wider">Detail Informasi Proyek</h4>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
                     <div>
-                      <span className="text-slate-400 block text-[11px]">Nama Pekerjaan & No. WO:</span>
-                      <span className="font-semibold text-slate-800">{report.projectName} {report.projectCode && `(${report.projectCode})`}</span>
+                      <span className="text-slate-400 block text-[11px]">Nama Pekerjaan:</span>
+                      <span className="font-semibold text-slate-800">{report.projectName}</span>
+                    </div>
+                    <div>
+                      <span className="text-slate-400 block text-[11px]">NO WO:</span>
+                      <span className="font-semibold text-slate-800 font-mono text-sky-700">{report.projectCode || '-'}</span>
                     </div>
                     <div>
                       <span className="text-slate-400 block text-[11px]">Lokasi Pekerjaan:</span>
@@ -539,10 +543,14 @@ export const ReportDetailModal: React.FC<ReportDetailModalProps> = ({
                         <thead className="bg-slate-100 text-slate-700 font-semibold border-b border-slate-200">
                           <tr>
                             <th className="py-2.5 px-3 text-center w-10">No</th>
-                            <th className="py-2.5 px-3">Nama Material / Bahan</th>
-                            <th className="py-2.5 px-3 text-center w-32">Diterima Hari Ini</th>
-                            <th className="py-2.5 px-3 text-center w-32">Digunakan Hari Ini</th>
-                            <th className="py-2.5 px-3">Catatan / Surat Jalan</th>
+                            <th className="py-2.5 px-3">Nama Material / Perangkat</th>
+                            <th className="py-2.5 px-3">Merk</th>
+                            <th className="py-2.5 px-3 text-center">Daya</th>
+                            <th className="py-2.5 px-3 text-center">Tahun</th>
+                            <th className="py-2.5 px-3">SN (Serial Number)</th>
+                            <th className="py-2.5 px-3 text-center">Diterima</th>
+                            <th className="py-2.5 px-3 text-center">Dipakai</th>
+                            <th className="py-2.5 px-3">Catatan / QC</th>
                           </tr>
                         </thead>
                         <tbody className="divide-y divide-slate-100">
@@ -550,10 +558,14 @@ export const ReportDetailModal: React.FC<ReportDetailModalProps> = ({
                             <tr key={m.id} className="hover:bg-slate-50/80">
                               <td className="py-2.5 px-3 text-center text-slate-400">{idx + 1}</td>
                               <td className="py-2.5 px-3 font-semibold text-slate-800">{m.name}</td>
+                              <td className="py-2.5 px-3 text-slate-700 font-medium">{m.brand || '-'}</td>
+                              <td className="py-2.5 px-3 text-center font-mono text-slate-700">{m.power || '-'}</td>
+                              <td className="py-2.5 px-3 text-center font-mono text-slate-600">{m.year || '-'}</td>
+                              <td className="py-2.5 px-3 font-mono text-sky-800 font-semibold">{m.serialNumber || '-'}</td>
                               <td className="py-2.5 px-3 text-center font-mono text-emerald-700 font-bold">
                                 +{m.receivedQty} {m.unit}
                               </td>
-                              <td className="py-2.5 px-3 text-center font-mono text-slate-700">
+                              <td className="py-2.5 px-3 text-center font-mono text-slate-700 font-bold">
                                 {m.usedQty} {m.unit}
                               </td>
                               <td className="py-2.5 px-3 text-slate-500">{m.notes || '-'}</td>
@@ -580,10 +592,14 @@ export const ReportDetailModal: React.FC<ReportDetailModalProps> = ({
                           <tr>
                             <th className="py-2.5 px-3 text-center w-10">No</th>
                             <th className="py-2.5 px-3">Nama Peralatan</th>
-                            <th className="py-2.5 px-3 text-center w-24">Jumlah Unit</th>
-                            <th className="py-2.5 px-3 text-center w-28">Jam Operasi</th>
-                            <th className="py-2.5 px-3 text-center w-28">Jam Standby</th>
-                            <th className="py-2.5 px-3 text-center w-28">Status Alat</th>
+                            <th className="py-2.5 px-3">Merk</th>
+                            <th className="py-2.5 px-3 text-center">Daya</th>
+                            <th className="py-2.5 px-3 text-center">Tahun</th>
+                            <th className="py-2.5 px-3">SN</th>
+                            <th className="py-2.5 px-3 text-center w-20">Jumlah</th>
+                            <th className="py-2.5 px-3 text-center w-24">Jam Operasi</th>
+                            <th className="py-2.5 px-3 text-center w-24">Standby</th>
+                            <th className="py-2.5 px-3 text-center w-24">Status</th>
                           </tr>
                         </thead>
                         <tbody className="divide-y divide-slate-100">
@@ -591,8 +607,12 @@ export const ReportDetailModal: React.FC<ReportDetailModalProps> = ({
                             <tr key={eq.id} className="hover:bg-slate-50/80">
                               <td className="py-2.5 px-3 text-center text-slate-400">{idx + 1}</td>
                               <td className="py-2.5 px-3 font-semibold text-slate-800">{eq.name}</td>
+                              <td className="py-2.5 px-3 text-slate-700">{eq.brand || '-'}</td>
+                              <td className="py-2.5 px-3 text-center font-mono text-slate-700">{eq.power || '-'}</td>
+                              <td className="py-2.5 px-3 text-center font-mono text-slate-600">{eq.year || '-'}</td>
+                              <td className="py-2.5 px-3 font-mono text-sky-800 font-semibold">{eq.serialNumber || '-'}</td>
                               <td className="py-2.5 px-3 text-center font-bold text-slate-800">{eq.totalUnits} Unit</td>
-                              <td className="py-2.5 px-3 text-center font-mono text-emerald-700">{eq.operatingHours} Jam</td>
+                              <td className="py-2.5 px-3 text-center font-mono text-emerald-700 font-semibold">{eq.operatingHours} Jam</td>
                               <td className="py-2.5 px-3 text-center font-mono text-amber-700">{eq.standbyHours} Jam</td>
                               <td className="py-2.5 px-3 text-center">
                                 <span className="px-2 py-0.5 rounded-full text-[10px] font-semibold bg-emerald-100 text-emerald-800">

@@ -259,6 +259,12 @@ export const ReportList: React.FC<ReportListProps> = ({
                       {report.projectName}
                     </h4>
 
+                    {report.projectCode && (
+                      <div className="text-[10px] font-mono text-slate-600 font-semibold bg-slate-50 px-2 py-0.5 rounded border border-slate-100 inline-block w-fit">
+                        NO WO: {report.projectCode}
+                      </div>
+                    )}
+
                     <div className="flex items-center gap-3 text-[11px] text-slate-500">
                       <span className="flex items-center gap-1 font-medium">
                         <Calendar size={12} className="text-slate-400" /> {formatDate(report.date)}
@@ -411,7 +417,7 @@ export const ReportList: React.FC<ReportListProps> = ({
                   <tr>
                     <th className="py-3 px-4">No. Laporan</th>
                     <th className="py-3 px-4">Tanggal</th>
-                    <th className="py-3 px-4">Nama Proyek</th>
+                    <th className="py-3 px-4">Nama Pekerjaan & NO WO</th>
                     <th className="py-3 px-4">Cuaca & Shift</th>
                     <th className="py-3 px-4 text-center">Pekerja</th>
                     <th className="py-3 px-4 text-center">Foto</th>
@@ -430,7 +436,14 @@ export const ReportList: React.FC<ReportListProps> = ({
                       <td className="py-3 px-4 text-slate-600">{formatDate(report.date)}</td>
                       <td className="py-3 px-4">
                         <div className="font-bold text-slate-800">{report.projectName}</div>
-                        <div className="text-[11px] text-slate-400 truncate max-w-xs">{report.location}</div>
+                        <div className="flex items-center gap-2 text-[11px] text-slate-500 mt-0.5">
+                          {report.projectCode && (
+                            <span className="font-mono text-sky-700 font-semibold bg-sky-50 px-1.5 py-0.2 rounded border border-sky-100">
+                              WO: {report.projectCode}
+                            </span>
+                          )}
+                          <span className="truncate max-w-xs">{report.location}</span>
+                        </div>
                       </td>
                       <td className="py-3 px-4">
                         <div className="font-medium text-slate-700">{report.weather}</div>

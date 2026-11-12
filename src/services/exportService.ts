@@ -21,8 +21,9 @@ export function generateWhatsAppMessage(
 
   if (template === 'ringkas') {
     return [
-      `📋 *RINGKASAN LAPORAN HARIAN PROYEK*`,
-      `🏢 *Proyek:* ${report.projectName}`,
+      `📋 *RINGKASAN LAPORAN HARIAN PEKERJAAN*`,
+      `🏢 *Nama Pekerjaan:* ${report.projectName}`,
+      `🔢 *NO WO:* ${report.projectCode || '-'}`,
       `📅 *Tanggal:* ${dateFormatted} (${report.shift})`,
       `📍 *Lokasi:* ${report.location}`,
       `🌤️ *Cuaca:* ${report.weather}`,
@@ -42,7 +43,8 @@ export function generateWhatsAppMessage(
   if (template === 'kendala') {
     return [
       `🚨 *LAPORAN KENDALA & K3 LAPANGAN*`,
-      `🏢 *Proyek:* ${report.projectName}`,
+      `🏢 *Nama Pekerjaan:* ${report.projectName}`,
+      `🔢 *NO WO:* ${report.projectCode || '-'}`,
       `📅 *Tanggal:* ${dateFormatted}`,
       `📍 *Lokasi:* ${report.location}`,
       `🌤️ *Cuaca Hari Ini:* ${report.weather}`,
@@ -73,9 +75,10 @@ export function generateWhatsAppMessage(
     : '✅ Nihil / Aman Terkendali';
 
   return [
-    `🏗️ *LAPORAN HARIAN PROYEK (DAILY REPORT)*`,
+    `🏗️ *LAPORAN HARIAN PEKERJAAN (DAILY REPORT)*`,
     `📄 *No:* ${report.reportNumber}`,
-    `🏢 *Proyek:* ${report.projectName} (${report.projectCode || '-'})`,
+    `🏢 *Nama Pekerjaan:* ${report.projectName}`,
+    `🔢 *NO WO:* ${report.projectCode || '-'}`,
     `📅 *Tanggal:* ${dateFormatted}`,
     `📍 *Lokasi:* ${report.location}`,
     `🌤️ *Cuaca:* ${report.weather}`,

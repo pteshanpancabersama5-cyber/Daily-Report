@@ -71,7 +71,7 @@ export async function generateDailyReportPDF(report: DailyReport): Promise<jsPDF
         { content: formatDateIndo(report.date), styles: { cellWidth: 64 } },
       ],
       [
-        { content: 'No. WO / Kode:', styles: { fontStyle: 'bold', fillColor: [248, 250, 252] } },
+        { content: 'NO WO:', styles: { fontStyle: 'bold', fillColor: [248, 250, 252] } },
         { content: report.projectCode || '-' },
         { content: 'Kondisi Cuaca:', styles: { fontStyle: 'bold', fillColor: [248, 250, 252] } },
         { content: report.weather },
@@ -204,6 +204,10 @@ export async function generateDailyReportPDF(report: DailyReport): Promise<jsPDF
   const matRows = report.materials.map((m, idx) => [
     (idx + 1).toString(),
     m.name,
+    m.brand || '-',
+    m.power || '-',
+    m.year || '-',
+    m.serialNumber || '-',
     `${m.receivedQty} ${m.unit}`,
     `${m.usedQty} ${m.unit}`,
     m.notes || '-',
@@ -215,19 +219,23 @@ export async function generateDailyReportPDF(report: DailyReport): Promise<jsPDF
       margin: { left: margin, right: margin },
       theme: 'grid',
       head: [[
-        { content: '3. LOG PENERIMAAN & PENGGUNAAN MATERIAL', colSpan: 5, styles: { fillColor: [51, 65, 85], halign: 'left', fontStyle: 'bold' } }
+        { content: '3. LOG MATERIAL & PERANGKAT (SPESIFIKASI MERK, DAYA, TAHUN, SN)', colSpan: 9, styles: { fillColor: [51, 65, 85], halign: 'left', fontStyle: 'bold' } }
       ], [
-        'No', 'Nama Material / Bahan', 'Diterima Hari Ini', 'Digunakan Hari Ini', 'Keterangan'
+        'No', 'Nama Material / Perangkat', 'Merk', 'Daya', 'Tahun', 'SN', 'Diterima', 'Dipakai', 'Keterangan'
       ]],
       body: matRows,
-      styles: { fontSize: 7, cellPadding: 1.6 },
+      styles: { fontSize: 6.5, cellPadding: 1.4 },
       headStyles: { fillColor: [71, 85, 105], textColor: [255, 255, 255] },
       columnStyles: {
-        0: { cellWidth: 10, halign: 'center' },
-        1: { cellWidth: 65 },
-        2: { cellWidth: 32, halign: 'center' },
-        3: { cellWidth: 32, halign: 'center' },
-        4: { cellWidth: 'auto' },
+        0: { cellWidth: 7, halign: 'center' },
+        1: { cellWidth: 42 },
+        2: { cellWidth: 20 },
+        3: { cellWidth: 18, halign: 'center' },
+        4: { cellWidth: 14, halign: 'center' },
+        5: { cellWidth: 24 },
+        6: { cellWidth: 20, halign: 'center' },
+        7: { cellWidth: 20, halign: 'center' },
+        8: { cellWidth: 'auto' },
       },
     });
     currentY = (doc as any).lastAutoTable.finalY + 4;

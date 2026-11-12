@@ -53,6 +53,14 @@ export async function createReportSpreadsheet(
           },
         },
       },
+      {
+        properties: {
+          title: 'Material & Perangkat',
+          gridProperties: {
+            frozenRowCount: 1,
+          },
+        },
+      },
     ],
   };
 
@@ -94,7 +102,7 @@ async function initializeSheetHeaders(spreadsheetId: string, accessToken: string
         'No. Laporan',
         'Tanggal',
         'Nama Pekerjaan',
-        'No. WO / Kode Proyek',
+        'NO WO',
         'Lokasi',
         'Cuaca',
         'Shift Kerja',
@@ -140,6 +148,22 @@ async function initializeSheetHeaders(spreadsheetId: string, accessToken: string
         'Dampak Waktu (Jam)',
         'Tindakan / Solusi',
         'Status Masalah'
+      ]],
+    },
+    {
+      range: "'Material & Perangkat'!A1:K1",
+      values: [[
+        'No. Laporan',
+        'Tanggal',
+        'Nama Material / Perangkat',
+        'Merk',
+        'Daya',
+        'Tahun',
+        'SN (Serial Number)',
+        'Diterima Hari Ini',
+        'Digunakan Hari Ini',
+        'Satuan',
+        'Catatan'
       ]],
     },
   ];
@@ -228,6 +252,24 @@ export async function appendReportToSpreadsheet(
       i.status,
     ]);
     await appendRow(spreadsheetId, "'Kendala & Solusi Lapangan'!A:G", issueRows, accessToken);
+  }
+
+  // 5. Append Materials & Devices with SN, Daya, Tahun, Merk if available
+  if (report.materials && report.materials.length > 0) {
+    const matRows = report.materials.map((m) => [
+      report.reportNumber,
+      report.date,
+      m.name,
+      m.brand || '-',
+      m.power || '-',
+      m.year || '-',
+      m.serialNumber || '-',
+      m.receivedQty,
+      m.usedQty,
+      m.unit,
+      m.notes || '-',
+    ]);
+    await appendRow(spreadsheetId, "'Material & Perangkat'!A:K", matRows, accessToken);
   }
 
   return {
